@@ -1,0 +1,106 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile for students or employers",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "role": { "type": "string", "enum": ["student", "employer"] },
+        "university": { "type": "string" },
+        "major": { "type": "string" },
+        "xp": { "type": "number" },
+        "level": { "type": "number" },
+        "skills": { "type": "array", "items": { "type": "string" } },
+        "photoURL": { "type": "string" },
+        "bio": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "role"]
+    },
+    "Job": {
+      "title": "Job",
+      "description": "Job posting by an employer",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "employerId": { "type": "string" },
+        "title": { "type": "string" },
+        "company": { "type": "string" },
+        "location": { "type": "string" },
+        "salary": { "type": "string" },
+        "description": { "type": "string" },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "type": { "type": "string", "enum": ["internship", "tuition", "part-time", "freelance", "campus-ambassador", "remote"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["employerId", "title", "company"]
+    },
+    "Match": {
+      "title": "Match",
+      "description": "Mutual interest match between student and job",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "studentId": { "type": "string" },
+        "employerId": { "type": "string" },
+        "jobId": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "closed"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["studentId", "employerId", "jobId"]
+    },
+    "Shift": {
+      "title": "Shift",
+      "description": "Hourly work shift",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "jobId": { "type": "string" },
+        "workerId": { "type": "string" },
+        "startTime": { "type": "string", "format": "date-time" },
+        "endTime": { "type": "string", "format": "date-time" },
+        "hourlyRate": { "type": "number" },
+        "status": { "type": "string", "enum": ["scheduled", "ongoing", "completed", "cancelled"] },
+        "location": { "type": "object" }
+      }
+    },
+    "Attendance": {
+      "title": "Attendance",
+      "description": "Clock-in/out logs for shifts",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "shiftId": { "type": "string" },
+        "workerId": { "type": "string" },
+        "checkIn": { "type": "string", "format": "date-time" },
+        "checkOut": { "type": "string", "format": "date-time" },
+        "verified": { "type": "boolean" }
+      }
+    }
+  },
+  "firestore": {
+    "users": {
+      "schema": "User",
+      "description": "Collection of user profiles"
+    },
+    "jobs": {
+      "schema": "Job",
+      "description": "Collection of job postings"
+    },
+    "matches": {
+      "schema": "Match",
+      "description": "Collection of mutual matches"
+    },
+    "shifts": {
+      "schema": "Shift",
+      "description": "Hourly shifts"
+    },
+    "attendance": {
+      "schema": "Attendance",
+      "description": "Attendance logs"
+    }
+  }
+}
